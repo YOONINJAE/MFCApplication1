@@ -57,11 +57,6 @@ CMFCApplication1Dlg::CMFCApplication1Dlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_MFCAPPLICATION1_DIALOG, pParent)
 	, result(_T(""))
 {
-	m_selected_op = -1;
-	m_clear_num_flag = 0;
-	m_first_num = 0;
-	m_second_num = 0;
-
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
@@ -75,6 +70,12 @@ BEGIN_MESSAGE_MAP(CMFCApplication1Dlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDC_Plus, &CMFCApplication1Dlg::OnBnClickedPlus)
+	ON_BN_CLICKED(IDC_Substract, &CMFCApplication1Dlg::OnBnClickedSubstract)
+	ON_BN_CLICKED(IDC_Multiply, &CMFCApplication1Dlg::OnBnClickedMultiply)
+	ON_BN_CLICKED(IDC_Divide, &CMFCApplication1Dlg::OnBnClickedDivide)
+	ON_BN_CLICKED(IDC_Equal, &CMFCApplication1Dlg::OnBnClickedEqual)
+	ON_BN_CLICKED(IDC_Clear, &CMFCApplication1Dlg::OnBnClickedClear)
 END_MESSAGE_MAP()
 
 
@@ -174,4 +175,95 @@ void CMFCApplication1Dlg::OnBnClickedButton12()
 void CAboutDlg::OnBnClickedPlus()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+BOOL CMFCApplication1Dlg::OnCommand(WPARAM wParam, LPARAM lParam)
+{
+	// wparma은 버튼의 아이디가 들어감.
+	if (wParam >= IDC_num0 && wParam <= IDC_num9) {
+		CString str, num_str;
+		num_str.Format(L"%d", wParam - IDC_num0); // num의 값 출력
+		if(m_step_flag == 0)GetDlgItemText(IDC_EDIT2, str);
+		else {
+			m_first_value = GetDlgItemInt(IDC_EDIT2); // 값 백업
+			m_step_flag = 0;
+		}
+		SetDlgItemText(IDC_EDIT2, str+ num_str);
+	}
+	return CDialogEx::OnCommand(wParam, lParam);
+}
+
+
+void CMFCApplication1Dlg::OnBnClickedPlus()
+{
+	m_op_flag = PLUS;
+	GetDlgItemText(IDC_EDIT2,m_history);
+	SetDlgItemText(IDC_EDIT1, m_history + "+");
+	m_step_flag = 1;
+}
+
+void CMFCApplication1Dlg::OnBnClickedSubstract()
+{
+	m_op_flag = SUBTRACT;
+	GetDlgItemText(IDC_EDIT2, m_history);
+	SetDlgItemText(IDC_EDIT1, m_history + "-");
+	m_step_flag = 1;
+}
+
+void CMFCApplication1Dlg::OnBnClickedMultiply()
+{
+	m_op_flag = MULTIPLY;
+	GetDlgItemText(IDC_EDIT2, m_history);
+	SetDlgItemText(IDC_EDIT1, m_history + "×");
+	m_step_flag = 1;
+}
+
+void CMFCApplication1Dlg::OnBnClickedDivide()
+{
+	m_op_flag = DIVIDE;
+	GetDlgItemText(IDC_EDIT2, m_history);
+	SetDlgItemText(IDC_EDIT1, m_history + "÷");
+	m_step_flag = 1;
+}
+
+
+void CMFCApplication1Dlg::OnBnClickedEqual()
+{
+	int second_value = GetDlgItemInt(IDC_EDIT2); // 결과 값 백업
+	CString str;
+	GetDlgItemText(IDC_EDIT2,str);
+	//operation flag
+	switch (m_op_flag) {
+	case PLUS:
+		m_first_value += second_value;
+		SetDlgItemText(IDC_EDIT1, m_history + "+" + str); // history 표시
+		break;
+	case SUBTRACT:
+		m_first_value -= second_value;
+		SetDlgItemText(IDC_EDIT1, m_history + "-" + str);
+		break;
+	case MULTIPLY:
+		m_first_value *= second_value;
+		SetDlgItemText(IDC_EDIT1, m_history + "*" + str);
+		break;
+	case DIVIDE:
+		if (second_value != 0) { 
+			m_first_value /= second_value;
+			SetDlgItemText(IDC_EDIT1, m_history + "/" + str);
+		}
+		else m_first_value = 0;
+		break;
+	}
+	m_history.Format(_T("%d"), m_first_value); // history update
+	SetDlgItemInt(IDC_EDIT2, m_first_value);
+	m_step_flag = 1;
+}
+
+
+void CMFCApplication1Dlg::OnBnClickedClear()
+{
+	m_history = "";
+	SetDlgItemText(IDC_EDIT2, m_history);
+	SetDlgItemText(IDC_EDIT1, m_history);
 }

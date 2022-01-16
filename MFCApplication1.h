@@ -27,12 +27,6 @@ public:
 // 구현입니다.
 
 public:
-	CString mbuf;
-	CString m_result;
-	bool m_bEqualClk;
-	int m_cType;
-
-
 	DECLARE_MESSAGE_MAP()
 };
 

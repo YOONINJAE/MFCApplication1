@@ -7,25 +7,25 @@
 #define IDS_ABOUTBOX                    101
 #define IDD_MFCAPPLICATION1_DIALOG      102
 #define IDR_MAINFRAME                   128
-#define IDC_EDIT1                       1000
-#define IDC_1                           1002
-#define IDC_EDIT2                       1003
-#define IDC_EDIT3                       1004
-#define IDC_2                           1009
-#define IDC_3                           1010
-#define IDC_4                           1011
-#define IDC_6                           1012
-#define IDC_BUTTON7                     1013
-#define IDC_5                           1014
+#define IDC_num0                        1000
+#define IDC_num1                        1001
+#define IDC_num2                        1002
+#define IDC_num3                        1003
+#define IDC_num4                        1004
+#define IDC_num5                        1005
+#define IDC_num6                        1006
+#define IDC_num7                        1007
+#define IDC_num8                        1008
+#define IDC_num9                        1009
 #define IDC_Substract                   1015
-#define IDC_0                           1016
-#define IDC_8                           1017
 #define IDC_Plus                        1018
 #define IDC_Divide                      1019
 #define IDC_Multiply                    1020
-#define IDC_9                           1021
 #define IDC_Clear                       1022
 #define IDC_Equal                       1023
+#define IDC_EDIT1                       1031
+#define IDC_EDIT2                       1032
+#define IDC_EDIT3                       1033
 
 // Next default values for new objects
 // 
